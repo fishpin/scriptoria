@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Scriptoria</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+
+  <!-- Font links -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Uncial+Antiqua&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="pageWrapper">
+    <header class="landing" id="landing">
+      <div class="landingDisplay">
+        <h1>Welcome to Scriptoria!</h1>
+        <p class="intro">
+          The Grand Archive of Scriptoria is a shining beacon of knowledge; a place where scholars, mages,
+          and historians from across the realm gather to study the near-endless texts within its walls.
+          However, not all books are harmless. Within the forbidden section of the archive, something has
+          gotten loose, and now the Head Archivist has called for aid to stop the spreading chaos.<br><br>
+          You are a Seeker: a specialist sent by the Guild to uncover the source of the corruption and restore
+          balance to the Archive before its knowledge is lost forever.
+        </p>
+
+        <div class="characterSelect">
+          <h2>Choose your hero</h2>
+
+          <!-- Character Select -->
+          <div class="characterCards">
+
+            <div class="characterCard" data-char="warrior">
+              <div class="characterName">Orrick Durnhald</div>
+              <div class="characterDesc">Once a knight of great renown, Orrick carries his past like a shadow. Steadfast and valiant 
+                despite his scars, his strength is matched only by the weight of the memories he can't let go.</div>
+            </div>
+
+            <div class="characterCard" data-char="mage">
+              <div class="characterName">Flourish Pendergast</div>
+              <div class="characterDesc">Master of hexes and hidden lore, Flourish laughs in the face of 
+                safer schools of spellcraft. No amount of danger can dampen her curiosity.</div>
+            </div>
+
+            <div class="characterCard" data-char="dog">
+              <div class="characterName">Poe</div>
+              <div class="characterDesc">"Don't let the fluffy tail fool you. Poe is a steadfast and spirited little dog, 
+                ready to follow the path of a true hero."</div>
+            </div>
+
+          </div>
+          <button id="startGame" disabled>Start Adventure</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="gameArea" id="gameArea">
+      <aside class="sidebar" id="sidebar">
+        <section id="playerInfo"><div id="characterDisplay">
+        </div></section>
+        <section id="howTo">
+          <h4>How to Play</h4>
+          <p>Read the text to follow the story. Type a command and press Submit or Enter. For choices, type the number of the option you want.</p>
+          <br><br>
+          <h4>Commands</h4>
+          <ul>
+            <li>Move - change locations</li>
+            <li>Search - look for items to pick up or people to speak to</li>
+            <li>Talk - speak with people in the room with you</li>
+            <li>Pick Up - add items to inventory</li>
+            <li>Inventory - view inventory</li>
+            <li>Use - consume or interact with an item in your inventory</li>
+            <li>Help - display this list of commands</li>
+          </ul>
+        </section>
+      </aside>
+      <main class="textDisplay"><div id="gameLog"></div></main>
+    </div>
+
+    <footer class="footer">
+      <div id="userControls">
+        <input type="text" id="commandInput" placeholder="Type your commands here...">
+        <button type="button" id="submitCommand">Submit</button>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
