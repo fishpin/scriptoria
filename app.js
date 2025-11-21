@@ -363,13 +363,7 @@ const gameState = {
   gameLog: [],
   gameOver: false,
   pendingChoice: null,
-  lastAction: null,
   flags: { hallwayMazeSolved: false, sealPuzzleSolved: false, bibliosCleansed: false }
-};
-
-//Tracking actions taken to ensure they are made in an actionable order
-function markAction(name) {
-  gameState.lastAction = name;
 };
 
 // ==================================================================
@@ -725,7 +719,6 @@ function readCommand() {
       log("Please enter a number from the list.");
     }
 
-    markAction("move");
     renderGameLog();
     commandInput.value = "";
     return;
@@ -1029,43 +1022,31 @@ if (gameState.pendingChoice?.type === "talk-topic") {
   switch (command) {
     case "move":
       moveLocations();
-      markAction("move-menu");
       break;
     case "search":
       log(gameState.currentLocation.searchLocation());
-      markAction("search");
       renderGameLog();
       break;
     case "pick up":
       startPickUpFlow();
-      markAction("pickup-menu");
       break;
     case "inventory":
       gameState.player.viewInventory();
-      markAction("inventory");
       break;
     case "use":
-      if (gameState.lastAction !== "inventory") {
-        log("Please open your inventory first!");
-        renderGameLog();
-        break;
-      }
       startUseItemFlow();
-      markAction("used-item");
       break;
     case "attack":
       attackEnemy();
       break;
     case "talk":
       talkTo();
-      markAction("talk");
       break;
     case "help":
       getHelp();
       break;
     default:
       log("This is not a valid command. Type 'help' to see available commands.");
-      renderGameLog();
       break;
   }
 
