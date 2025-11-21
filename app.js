@@ -39,10 +39,10 @@ document.addEventListener('DOMContentLoaded', () => {
     landing.classList.add('collapsed');
     gameArea.classList.add('visible');
     gameState.gameLog = [];
-    log(
-      `You have chosen **${gameState.player.name}**.\n` +
-      `Health: ${gameState.player.health}/${gameState.player.maxHealth} | ` +
-      `Attack: ${gameState.player.attackPower}\n\n` +
+    log(`You have chosen **${gameState.player.name}**.\n`);
+    log(`Health: ${gameState.player.health}/${gameState.player.maxHealth}`);
+    log(`Attack: ${gameState.player.attackPower}\n\n`);
+    log(  
       "The weather continues to be miserable as you arrive at the Grand Archive. Rain spits in your face and mud grips your "+
       "shoes as if trying to talk you out of getting closer, adding to your apprehension of the chaos waiting inside. \nThe large"+
       " wooden doors groan as you haul them open and, in surprising contrast to what you expected, the atmosphere is quite pleasant! "+
@@ -70,34 +70,35 @@ class PlayerCharacter {
     this.health = health;
     this.attackPower = attackPower;
     this.inventory = inventory;
-  };
+  }
 
   takeDamage(amount) {
     this.health = Math.max(0, this.health - Math.max(0, amount));
     refreshSidebar();
-  };
+  }
 
   attack(target) {
     if (!target) return 0;
     const dmg = Math.max(0, this.attackPower);
     target.health = Math.max(0, target.health - dmg);
     return dmg; //for logging
-  };
+  }
 
   pickUpItem(item) {
     if (!this.inventory) this.inventory = [];
-      this.inventory.push(item);
-      renderGameLog();
-  };
+    this.inventory.push(item);
+  }
 
   viewInventory() {
-    const inv = gameState.player?.inventory;
+    const inv = this.inventory || [];
     if (inv.length === 0) {
       log("Your bag is empty.");
     } else {
       const names = inv.map(i => i.name).join(", ");
       log("You open your bag and see\n" + names + ".");
     }
+
+    renderGameLog();
   }
 
   useItem(item) {
@@ -114,7 +115,7 @@ class PlayerCharacter {
   }
   return `You can't use this right now.`;
   }
-};
+}
 
 class NPC {
   constructor(name, description, health, attackPower, searchReaction, dialogue, hostile) {
@@ -181,7 +182,7 @@ class Item {
 // Items
 // ===============================
 const healthPot = new Item(
-  "a health Pot",
+  "a health pot",
   "healing",
   "A small flask filled with magical liquid. Heals user for 30% of max HP.",
   20
@@ -269,9 +270,9 @@ const biblios = new NPC(
   "A large, horned creature, its body dripping with black ink that obscures every feature. Only half-emerged from the book that binds it, its sheer presence makes your hair stand on end.",
   310,
   30,
-  "The grotesque creature reaches out to you as it tries to free itself, making an indescernable gurgle.",
-  [{prompt: "Attempt to communicate with the creature", reply: "It writhes and continues to reach for you. You almost feel tempted to take it's hand..."},
-   {prompt: "Use the Rite of Cleansing on Biblios", reply: "Wait... That old page you found!", action: "Cleanse"},
+  "The grotesque creature reaches out to you as it tries to free itself, making an indescernible gurgle.",
+  [{prompt: "Attempt to communicate with the creature", reply: "It writhes and continues to reach for you. You almost feel tempted to take its hand..."},
+   {prompt: "Use the Rite of Cleansing on Biblios", reply: "Wait... That old page you found!", action: "cleanse"},
    {prompt: "End Conversation", reply: "You back away slowly from the dripping mass, careful to stay out of its reach."}],
   true
 );
@@ -364,7 +365,7 @@ const gameState = {
   gameOver: false,
   pendingChoice: null,
   flags: { hallwayMazeSolved: false, sealPuzzleSolved: false, bibliosCleansed: false }
-};
+}
 
 // ==================================================================
 // Rendering
@@ -380,12 +381,12 @@ function renderGameLog() {
   if (textDisplay) {
     textDisplay.scrollTop = textDisplay.scrollHeight;
   }
-};
+}
 
 //Returning inventory as a numbered list
 function itemListString(items) {
   return items.map((it, idx) => `${idx + 1}) ${it.name} - ${it.description}`).join("\n");
-};
+}
 
 //Updating sidebar to reflect current health when damage taken
 function refreshSidebar() {
@@ -429,7 +430,7 @@ function moveLocations() {
       type: "library-exits", 
       moveOptions: filtered, 
       sealIndex 
-    };
+    }
     log("Where would you like to go?\n" + lines.join("\n"));
     renderGameLog();
     return;
@@ -461,7 +462,7 @@ function startPickUpFlow() {
   const menu = itemListString(items) + "\n0) Done";
   log("What would you like to pick up?\n" + menu);
   renderGameLog();
-};
+}
 
 function listItemsNumbered(items) {
   return items.map((it, i) => `${i + 1}) ${it.name}`).join("\n");
@@ -484,7 +485,7 @@ function getHostileHere() {
   const here = gameState.currentLocation;
   if (!here || !Array.isArray(here.characters)) return null;
   return here.characters.find(npc => npc.hostile && npc.health > 0) || null;
-};
+}
 
 //looping combat scenario until battle is resolved
 function showCombatMenu(foe) {
@@ -565,7 +566,7 @@ function talkTo() {
   gameState.pendingChoice = { type: "talk-npc", options: candidates };
   log("Who would you like to talk to?\n" + names.join("\n"));
   renderGameLog();
-};
+}
 
 function getHelp() {
   log(
@@ -573,7 +574,7 @@ function getHelp() {
     "Type a command. For choices, type the number shown."
   );
   renderGameLog();
-};
+}
 
 //Setting custom responses depending on present NPCs during search
 function buildSearchReaction(characters) {
@@ -587,7 +588,7 @@ function buildSearchReaction(characters) {
   }
 
   return "";
-};
+}
 
 //Attempting to cleanse Biblios with the Rite of Cleansing
 function performCleansing() {
@@ -642,7 +643,7 @@ function performCleansing() {
   );
   renderGameLog();
   return true;
-};
+}
 
 //Starting the hallway maze by initializing answer key
 const HALLWAY_MAZE_SEQUENCE = [2, 3, 1];
@@ -684,7 +685,7 @@ function startSealPuzzle() {
     lines.join("\n")
   );
   renderGameLog();
-};
+}
 
 //==================================================================
 // Input handling
@@ -1059,4 +1060,4 @@ if (commandInput) {
   commandInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter") readCommand();
   });
-};
+}
