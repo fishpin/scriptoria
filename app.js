@@ -1,5 +1,5 @@
 // ===============================
-// CHARACTER SELECTION (CARD-BASED) - FIXED VERSION
+// CHARACTER SELECTION
 // ===============================
 //Creating shorthand and formatting for pushing information to the game log
 const log = (text) => gameState.gameLog.push(text + "\n");
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
       " wooden doors groan as you haul them open and, in surprising contrast to what you expected, the atmosphere is quite pleasant! "+
       "Warm lamplight glows across the polished tile floor of the oversized reception hall. High shelves line the walls, filled with"+
       " neat ledgers and visitor registers; their order almost defiant against the storm outside. A wide archway dominates the far"+
-      " wall amd through its carved wooden frame, you can make out a corridor leading deeper into the Archive. To your right, a "+
+      " wall and through its carved wooden frame, you can make out a corridor leading deeper into the Archive. To your right, a "+
       "sweeping spiral staircase coils upward into shadow, presumably toward the observatory you saw from outside. \nAt the center "+
       "of the hall stands an elderly scholar. He watches you with a mixture of urgency and relief, as though he's been waiting "+
       "far too long for someone to finally step through those doors." +
@@ -98,20 +98,15 @@ class PlayerCharacter {
       const names = inv.map(i => i.name).join(", ");
       log("You open your bag and see\n" + names + ".");
     }
-  renderGameLog();
   }
 
   useItem(item) {
-  if (!item || typeof item.name !== "string") {
-    return "Please choose an item by number first.";
-  }
-
   //Calculating amount of health to be restored
   if (item.type === "healing") {
     const healAmount = Math.floor(this.maxHealth * 0.3);
     this.health = Math.min(this.maxHealth, this.health + healAmount);
 
-    //Removing the used item by reference
+    //Removing the used item
     const idx = this.inventory.indexOf(item);
     if (idx !== -1) this.inventory.splice(idx, 1);
 
@@ -1083,18 +1078,4 @@ if (commandInput) {
   commandInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter") readCommand();
   });
-}
-
-//Character Selection screen listeners
-document.addEventListener('DOMContentLoaded', () => {
-  const cards = document.querySelectorAll('.characterCard');
-  const startBtn = document.getElementById('startGame');
-
-  cards.forEach(card => {
-    card.addEventListener('click', () => {
-      cards.forEach(c => c.classList.remove('selected'));
-      card.classList.add('selected');
-      startBtn.disabled = false;
-    });
-  });
-});
+};
